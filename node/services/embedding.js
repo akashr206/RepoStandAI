@@ -79,8 +79,9 @@ function groupFiles(repoPath, files) {
     return groupedFiles;
 }
 
-const IGNORE_PATTERNS = [
+const IGNORE_PATTERNS = [ 
     "**/node_modules/**",
+    "**/.git",
     "**/.git/**",
     "**/.next/**",
     "**/dist/**",
