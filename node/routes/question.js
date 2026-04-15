@@ -11,7 +11,7 @@ route.post("/", async (req, res) => {
             return res.status(400).json({ error: "Repository ID and question are required" })
         }
         let { data, error } = await supabase.from("repos").select("status").eq("id", repoId);
-        console.log(data);
+        
         
         if (data[0].status != "success") {
             return res.status(400).json({ error: "Repository is not ready yet" })
