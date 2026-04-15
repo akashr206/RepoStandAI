@@ -31,4 +31,4 @@ def ingest_repo(body: dict, background_tasks: BackgroundTasks):
     )
 
     background_tasks.add_task(process_repo, repo_url, repo_id)
-    return {"message": "Repo ingested successfully"}
+    return {"status": "processing", "repo_id": repo_id}
