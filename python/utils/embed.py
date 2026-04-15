@@ -1,25 +1,16 @@
-from huggingface_hub import InferenceClient
+from sentence_transformers import SentenceTransformer
 import os
 from dotenv import load_dotenv
-load_dotenv()
 
-client = InferenceClient(token=os.getenv("HF_API_KEY"))
+load_dotenv()
 
 def embed(texts: list[str]):
     try:
-        embeddings = []
-
-        for text in texts:
-            res = client.feature_extraction(
-                text,
-                model="BAAI/bge-base-en"
-            )
-
-            while isinstance(res[0], list):
-                res = res[0]
-
-            embeddings.append(res)
-        return {"success": True, "embedding": embeddings}
+        model = SentenceTransformer("all-mpnet-base-v2", token=os.getenv("HF_API_KEY"))
+        embeddings = model.encode(texts)
+        return {"success": True, "embedding": embeddings.tolist()}
 
     except Exception as e:
         return {"success": False, "error": str(e)}
+
+# embed(["hi", "how are you", "This is embedding test"])

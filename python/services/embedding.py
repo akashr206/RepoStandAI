@@ -65,5 +65,3 @@ def embed_file(repo_id: str):
     except Exception as e:
         print(e)
         return {"error": e}
-
-embed_file("ALKbSdsNA8")
