@@ -10,7 +10,6 @@ load_dotenv()
 
 supabase = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"))
 
-
 def store_summary(repo_id: str):
     try:    
         file_tree = build_tree_json(f"repos/{repo_id}")
@@ -21,7 +20,7 @@ def store_summary(repo_id: str):
         else:
             dependencies = "No dependencies found in the repository"
 
-        response = gemini_chat("You are an expert repository summarizer. You are given a file structure of a repository and its dependencies contents, your task is to summarize the repository efficiently. Be confident with your response.", f"File Structure:\n{file_tree}\nDependencies:\n{dependencies}")
+        response = gemini_chat("You are an expert repository summarizer. You are given a file structure of a repository and its dependencies contents, your task is to summarize the repository efficiently in 100-150 words. Be confident with your response.", f"File Structure:\n{file_tree}\nDependencies:\n{dependencies}")
         
         if response.get("error"):
             print("error gemini", response["error"])

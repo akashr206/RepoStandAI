@@ -30,23 +30,23 @@ def process_repo(repo_url: str,repo_id: str):
 
     print("cloned")
 
-    # result = store_repo(repo_id)
-    # if result.get("error"):
-    #     print("error storing")
-    #     supabase.table("repos").update({"status": "failed"}).eq("id", repo_id).execute()
-    #     shutil.rmtree(f"repos/{repo_id}", onerror=force_remove)
-    #     return
+    result = store_repo(repo_id)
+    if result.get("error"):
+        print("error storing")
+        supabase.table("repos").update({"status": "failed"}).eq("id", repo_id).execute()
+        shutil.rmtree(f"repos/{repo_id}", onerror=force_remove)
+        return
 
-    # print("stored")
+    print("stored")
 
-    # result = embed_file(repo_id)
-    # if result.get("error"):
-    #     print("error embedding")
-    #     supabase.table("repos").update({"status": "failed"}).eq("id", repo_id).execute()
-    #     shutil.rmtree(f"repos/{repo_id}", onerror=force_remove)
-    #     return
+    result = embed_file(repo_id)
+    if result.get("error"):
+        print("error embedding")
+        supabase.table("repos").update({"status": "failed"}).eq("id", repo_id).execute()
+        shutil.rmtree(f"repos/{repo_id}", onerror=force_remove)
+        return
 
-    # print("embedded")
+    print("embedded")
 
     result = store_summary(repo_id)
     if result.get("error"):
@@ -60,4 +60,4 @@ def process_repo(repo_url: str,repo_id: str):
     shutil.rmtree(f"repos/{repo_id}", onerror=force_remove)
     return
 
-process_repo("https://github.com/akashr206/portfolio", "a8gLpOOzmp")
+# process_repo("https://github.com/akashr206/portfolio", "a8gLpOOzmp")

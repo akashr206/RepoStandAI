@@ -38,7 +38,6 @@ def store_repo(repo_id: str):
 
             relative_path = path.relative_to(repo_path)
             relative_str = str(relative_path).replace("\\", "/")
-            # print(relative_str)
             if ignore_files(relative_path):
                 continue
 
@@ -52,7 +51,12 @@ def store_repo(repo_id: str):
                         f,
                         {"content-type": "application/octet-stream"}
                     )
-                pass
+
+                    supabase.table("files").insert({
+                        "repo_id": repo_id,
+                        "path": relative_str,
+                    }).execute()
+
             except Exception as e:
                 print(f"Skipping {relative_str}: {e}")
 

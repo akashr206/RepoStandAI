@@ -1,8 +1,8 @@
 from fastapi import APIRouter
-from utils.embed import embed
 from supabase import create_client
 import os
 from dotenv import load_dotenv
+from services.question_chain import process_question
 
 load_dotenv()
 
@@ -15,17 +15,11 @@ def question(body: dict):
     question = body["question"]
     if not repo_id or not question:
         return {"error": "Missing repo_id or question"}
-    response = supabase.table("repos").select("status").eq("id", repo_id).execute()
-    if response.data[0]["status"] != "success":
-        return {"error": "Repo not processed yet or processing has failed"}
 
-    question_embedding = embed([question])
-    if not question_embedding["success"]:
-        return {"error": "Failed to embed question"}
+    response = supabase.table("repos").select("status").eq("id", repo_id).execute()
+
+    if not response.data or response.data[0]["status"] != "success":
+        return {"error": "Repo not processed yet or processing has failed"}
     
-    reponse = supabase.rpc("match_embeddings", {
-        "query_embedding": question_embedding["embedding"][0],
-        "repo_id_input": repo_id,
-        "match_count": 10
-    }).execute()
-    return {"response": reponse.data}
+    response = process_question(repo_id, question)
+    return {"response": response}

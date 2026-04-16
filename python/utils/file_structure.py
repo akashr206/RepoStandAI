@@ -7,7 +7,7 @@ IGNORE_DIRS = {
 IGNORE_EXTENSIONS = {
     ".lock", ".png", ".jpg", ".jpeg", ".gif",
     ".svg", ".webp", ".ico", ".woff", ".woff2",
-    ".ttf", ".eot", "package-lock.json"
+    ".ttf", ".eot"
 }
 
 def ignore_files(path: Path):

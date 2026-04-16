@@ -12,10 +12,14 @@ IGNORE_DIRS = {
     "node_modules", ".git", ".next", "dist", "build"
 }
 
+IGNORE_FILES = {
+    "package-lock.json"
+}
+
 IGNORE_EXTENSIONS = {
     ".lock", ".png", ".jpg", ".jpeg", ".gif",
     ".svg", ".webp", ".ico", ".woff", ".woff2",
-    ".ttf", ".eot", "package-lock.json"
+    ".ttf", ".eot"
 }
 
 def ignore_files(path: Path):
@@ -23,6 +27,9 @@ def ignore_files(path: Path):
         return True
 
     if path.suffix in IGNORE_EXTENSIONS:
+        return True
+    
+    if path.name in IGNORE_FILES:
         return True
 
     return False
